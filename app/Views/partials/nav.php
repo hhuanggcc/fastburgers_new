@@ -1,17 +1,22 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+$isLoggedIn = !empty($_SESSION['auth']['logged_in']) && !empty($_SESSION['auth']['token']);
+?>
+
 <nav class="bg-white border-gray-200 py-2.5 dark:bg-gray-900">
     <div class="flex flex-wrap items-center justify-between max-w-screen-xl px-4 mx-auto">
-        <a href="#" class="flex items-center">
-            <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Company Logo</span>
+
+        <!-- Logo -->
+        <a href="/" class="flex items-center">
+            <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
+                Company Logo
+            </span>
         </a>
-        <div class="flex items-center lg:order-2">
-            <div class="hidden mt-2 mr-4 sm:inline-block">
-                <span></span>
-            </div>
 
-           <!-- Right Side Buttons -->
-        <div class="flex items-center lg:order-2 gap-3">
-
-           <!-- Right Side Buttons -->
+        <!-- Right Side Buttons -->
         <div class="flex items-center lg:order-2 gap-3">
 
             <?php if (!$isLoggedIn): ?>
@@ -54,36 +59,35 @@
                 </svg>
             </button>
         </div>
+
+        <!-- Main Navigation Links -->
         <div class="items-center justify-between w-full lg:flex lg:w-auto lg:order-1" id="mobile-menu-2">
             <ul class="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
+
                 <li>
                     <a href="/"
-                        class="block py-2 pl-3 pr-4 text-white bg-purple-700 rounded lg:bg-transparent lg:text-purple-700 lg:p-0 dark:text-white"
-                        aria-current="page">Home</a>
+                        class="block py-2 pl-3 pr-4 text-gray-700 hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white">
+                        Home
+                    </a>
                 </li>
+
                 <li>
                     <a href="/about"
-                        class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">about</a>
+                        class="block py-2 pl-3 pr-4 text-gray-700 hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white">
+                        About
+                    </a>
                 </li>
+
                 <li>
                     <a href="/contact"
-                        class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Contact</a>
+                        class="block py-2 pl-3 pr-4 text-gray-700 hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white">
+                        Contact
+                    </a>
                 </li>
-                <li>
-                    <a href="/login"
-                        class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">login</a>
-                </li>
-                 <li>
-                    <a href="/register"
-                        class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">register</a>
-                </li>
-                <li>
-                    <a href="/menu"
-                        class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">menu</a>
-                </li>
-                
+
             </ul>
         </div>
+
     </div>
 </nav>
 

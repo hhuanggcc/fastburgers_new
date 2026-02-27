@@ -36,7 +36,7 @@ class RegisterController
             }
 
             // Optional phone -> null if empty (if your DB allows NULL)
-            $cust_phoneNo = ($phone === '') ? null : $phone;
+            $cust_phoneNo = ($cust_phoneNo === '') ? null : $cust_phoneNo;
 
             // ---- Check duplicate email ----
             if (empty($errors)) {
@@ -63,8 +63,13 @@ class RegisterController
                 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
                 // NOTE: column is assumed to be `hashed_password`
-                $sql = "INSERT INTO customers (cust_first_name, cust_last_name, cust_phoneNo, email, hashed_password)
-                        VALUES (?, ?, ?, ?, ?)";
+                $sql = "INSERT INTO customers (
+            cust_first_name,
+            cust_last_name,
+            customer_phoneNo,
+            email,
+            password
+        ) VALUES (?, ?, ?, ?, ?)";
 
                 $stmt = $conn->prepare($sql);
 

@@ -1,36 +1,105 @@
 <?php
 
-class LogoutController
+class LoginController
 {
     public function index(): void
     {
-        // Start session if not started
+        $title = 'Fast Burgers - Login';
+        $errors = [];
+
+        // Start session
         if (session_status() === PHP_SESSION_NONE) {
+            // Optional: strengthen session cookie settings (works if HTTPS in prod)
+            // ini_set('session.cookie_secure', '1');   // only over HTTPS
+            // ini_set('session.cookie_httponly', '1'); // JS cannot read cookie
+            // ini_set('session.cookie_samesite', 'Lax');
             session_start();
         }
 
-        // Unset all session variables
-        $_SESSION = [];
-
-        // Destroy session
-        session_destroy();
-
-        // Delete the session cookie (important!)
-        if (ini_get("session.use_cookies")) {
-            $params = session_get_cookie_params();
-            setcookie(
-                session_name(),
-                '',
-                time() - 42000,
-                $params["path"],
-                $params["domain"],
-                $params["secure"],
-                $params["httponly"]
-            );
+        // If already logged in, redirect away (optional)
+        if (!empty($_SESSION['auth']['logged_in'])) {
+            header('Location: /');
+            exit;
         }
 
-        // Redirect to login page
-        header("Location: /login");
-        exit;
+        /** @var mysqli $conn */
+        $conn = require BASE_PATH . '/config/database.php';
+
+        if (!$conn || !($conn instanceof mysqli)) {
+            die('Database connection not available.');
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $email = trim($_POST['email'] ?? '');
+            $password = $_POST['password'] ?? '';
+
+            // Validate
+            if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $errors[] = 'Please enter a valid email address.';
+            }
+            if ($password === '') {
+                $errors[] = 'Please enter your password.';
+            }
+
+            if (empty($errors)) {
+                $sql = "SELECT customer_id, cust_first_name, cust_last_name, email, password
+                        FROM customers
+                        WHERE email = ?
+                        LIMIT 1";
+
+                $stmt = $conn->prepare($sql);
+
+                if (!$stmt) {
+                    $errors[] = 'Database error. Please try again.';
+                } else {
+                    $stmt->bind_param("s", $email);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    $user = $result ? $result->fetch_assoc() : null;
+                    $stmt->close();
+
+                    if (
+                        !$user ||
+                        empty($user['password']) ||
+                        !password_verify($password, $user['password'])
+                    ) {
+                        $errors[] = 'Incorrect email or password.';
+                    } else {
+                        // Success: prevent session fixation
+                        session_regenerate_id(true);
+
+                        // Build display name
+                        $customerName = trim(($user['cust_first_name'] ?? '') . ' ' . ($user['cust_last_name'] ?? ''));
+
+                        // Generate auth token for this session (server-side)
+                        $authToken = bin2hex(random_bytes(32)); // 64-char token
+
+                        // Store auth state in session
+                        $_SESSION['auth'] = [
+                            'logged_in' => true,
+                            'token' => $authToken,
+                            'token_issued_at' => time(),
+                        ];
+
+                        // Store customer details you want handy
+                        $_SESSION['customer'] = [
+                            'customer_id' => (int)$user['customer_id'],
+                            'name' => $customerName,
+                            'first_name' => $user['first_name'],
+                            'last_name' => $user['last_name'],
+                            'email' => $user['email'],
+                        ];
+
+                        // Redirect after login
+                        header('Location: customerDashboard');
+                        exit;
+                    }
+                }
+            }
+        }
+
+        // Render view
+        $view = BASE_PATH . '/app/Views/login.php';
+        require BASE_PATH . '/app/Views/layout.php';
     }
 }

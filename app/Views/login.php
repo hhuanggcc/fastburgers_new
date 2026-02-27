@@ -24,101 +24,63 @@
         Login
       </h1>
 
-    <?php
+     <!-- Error Messages -->
+        <?php if (!empty($errors)): ?>
+          <div class="mb-4 rounded bg-red-100 p-3 text-sm text-red-700">
+            <ul class="list-disc pl-4">
+              <?php foreach ($errors as $error): ?>
+                <li><?= htmlspecialchars($error) ?></li>
+              <?php endforeach; ?>
+            </ul>
+          </div>
+        <?php endif; ?>
 
-class LoginController
-{
-    public function index(): void
-    {
-        $title = 'Fast Burgers - Login';
-        $errors = [];
+        <!-- FORM START -->
+        <form method="POST" action="" class="space-y-4">
 
-        // Start session
-        if (session_status() === PHP_SESSION_NONE) {
-            // Optional: strengthen session cookie settings (works if HTTPS in prod)
-            // ini_set('session.cookie_secure', '1');   // only over HTTPS
-            // ini_set('session.cookie_httponly', '1'); // JS cannot read cookie
-            // ini_set('session.cookie_samesite', 'Lax');
-            session_start();
-        }
+          <input
+            type="email"
+            name="email"
+            placeholder="Email address"
+            required
+            class="w-full rounded-md bg-[#E9EFF6] p-2.5 placeholder:text-[#000000]"
+            style="box-shadow:rgb(0 0 0 / 21%) 0px 7px 5px 0px" />
 
-        // If already logged in, redirect away (optional)
-        if (!empty($_SESSION['auth']['logged_in'])) {
-            header('Location: /');
-            exit;
-        }
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            required
+            class="w-full rounded-md bg-[#E9EFF6] p-2.5 placeholder:text-[#000000]"
+            style="box-shadow:rgb(0 0 0 / 21%) 0px 7px 5px 0px" />
 
-        /** @var mysqli $conn */
-        $conn = require BASE_PATH . '/config/database.php';
+          <div class="pt-2">
+            <span
+              class="ml-2 cursor-pointer text-[10px] text-[#228CE0] hover:underline">
+              Forget Password?
+            </span>
+          </div>
 
-        if (!$conn || !($conn instanceof mysqli)) {
-            die('Database connection not available.');
-        }
+          <div class="flex justify-center">
+            <button
+              type="submit"
+              class="h-10 w-full cursor-pointer rounded-md bg-gradient-to-br from-[#7336FF] to-[#3269FF] text-white shadow-md shadow-blue-950">
+              Sign In
+            </button>
+          </div>
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $email = trim($_POST['email'] ?? '');
-            $password = $_POST['password'] ?? '';
+        </form>
+        <!-- FORM END -->
 
-            // Validate
-            if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $errors[] = 'Please enter a valid email address.';
-            }
-            if ($password === '') {
-                $errors[] = 'Please enter your password.';
-            }
+        <div class="mt-4 text-center text-[#969696]">
+          Don't have an account?
+          <a href="/register"
+             class="cursor-pointer text-[#7337FF] hover:underline">
+            Sign up
+          </a>
+        </div>
 
-            if (empty($errors)) {
-                $sql = "SELECT customer_id, cust_first_name, cust_last_name, email, hashed_password
-        FROM customers
-        WHERE email = ?
-        LIMIT 1";
-
-$stmt = $conn->prepare($sql);
-
-if (!$stmt) {
-    $errors[] = 'Database error. Please try again.';
-} else {
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $user = $result ? $result->fetch_assoc() : null;
-    $stmt->close();
-
-    if (
-        !$user ||
-        empty($user['hashed_password']) ||
-        !password_verify($password, $user['hashed_password'])
-    ) {
-        $errors[] = 'Incorrect email or password.';
-    } else {
-        session_regenerate_id(true);
-
-        $customerName = trim(($user['cust_first_name'] ?? '') . ' ' . ($user['cust_last_name'] ?? ''));
-
-        $_SESSION['auth'] = [
-            'logged_in' => true,
-            'token' => bin2hex(random_bytes(32)),
-            'token_issued_at' => time(),
-        ];
-
-        $_SESSION['customer'] = [
-            'customer_id' => (int)$user['customer_id'],
-            'name' => $customerName,
-            'first_name' => $user['cust_first_name'],
-            'last_name' => $user['cust_last_name'],
-            'email' => $user['email'],
-        ];
-
-        header('Location: customer-dashboard');
-        exit;
-    }
-}
-
-            }
-        }
-
-        // Render view
-        $view = BASE_PATH . '/app/Views/login.php';
-        require BASE_PATH . '/app/Views/layout.php';
-    }
-}
+      </div>
+    </div>
+  </div>
+</div>

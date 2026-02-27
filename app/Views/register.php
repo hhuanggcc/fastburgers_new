@@ -1,5 +1,6 @@
 <?php
-
+// Optional: show errors if set
+$errors = $errors ?? [];
 ?>
 
 <!-- Full-page background section -->
@@ -14,103 +15,92 @@
 
   <!-- Dark overlay -->
   <div class="absolute inset-0 bg-black/60"></div>
-<div class="min-h-screen flex items-center justify-center bg-gray-800">
-  <div class="w-96 backdrop-blur-lg bg-opacity-80 rounded-lg shadow-lg p-5 bg-gray-900 text-white">
-    <h2 class="text-2xl font-bold pb-5">SignUp</h2>
 
-    <form>
-      <div class="mb-4">
-          <label for="cust_first_name" class="block mb-2 text-sm font-medium">First Name</label>
+  <!-- Centered registration card -->
+  <div class="relative z-10 min-h-screen flex items-center justify-center px-4">
+    <div class="w-96 backdrop-blur-lg bg-opacity-80 rounded-lg shadow-lg p-8 bg-gray-900 text-white">
+      <h2 class="text-2xl font-bold mb-6 text-center">Sign Up</h2>
+
+      <!-- Display errors -->
+      <?php if (!empty($errors)): ?>
+        <div class="mb-5 rounded border border-red-500 bg-red-100 text-red-800 px-4 py-3">
+          <ul class="list-disc pl-5">
+            <?php foreach ($errors as $err): ?>
+              <li><?= htmlspecialchars($err) ?></li>
+            <?php endforeach; ?>
+          </ul>
+        </div>
+      <?php endif; ?>
+
+      <!-- Registration form -->
+      <form method="POST" action="" class="space-y-4">
+        <div class="mb-4">
+          <label for="first_name" class="block mb-2 text-sm font-medium">First Name</label>
           <input
             type="text"
-            id="cust_first_name"
-            name="cust_first_name"
-            class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full py-2.5 px-4"
-            
+            id="first_name"
+            name="first_name"
             required
+            class="bg-gray-100 text-gray-900 text-sm rounded-lg w-full py-2.5 px-4 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           >
         </div>
+
         <div class="mb-4">
-          <label for="cust_last_name" class="block mb-2 text-sm font-medium">Last Name</label>
+          <label for="last_name" class="block mb-2 text-sm font-medium">Last Name</label>
           <input
             type="text"
-            id="cust_last_name"
-            name="cust_last_name"
-            class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full py-2.5 px-4"
-            
+            id="last_name"
+            name="last_name"
             required
+            class="bg-gray-100 text-gray-900 text-sm rounded-lg w-full py-2.5 px-4 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           >
         </div>
+
         <div class="mb-4">
-          <label for="customer_phoneNo" class="block mb-2 text-sm font-medium">Phone Number</label>
+          <label for="phone" class="block mb-2 text-sm font-medium">Phone (Optional)</label>
           <input
             type="tel"
-            id="customer_phoneNo"
-            name="customer_phoneNo"
-            class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full py-2.5 px-4"
-            
+            id="phone"
+            name="phone"
+            placeholder="Optional"
+            class="bg-gray-100 text-gray-900 text-sm rounded-lg w-full py-2.5 px-4 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           >
         </div>
+
         <div class="mb-4">
-          <label for="customer_email" class="block mb-2 text-sm font-medium">Your email</label>
+          <label for="email" class="block mb-2 text-sm font-medium">Email</label>
           <input
             type="email"
             id="email"
             name="email"
-            class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full py-2.5 px-4"
-            placeholder="john@mail.com"
             required
+            class="bg-gray-100 text-gray-900 text-sm rounded-lg w-full py-2.5 px-4 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           >
         </div>
+
         <div class="mb-4">
-          <label for="password" class="block mb-2 text-sm font-medium">Your password</label>
+          <label for="password" class="block mb-2 text-sm font-medium">Password</label>
           <input
             type="password"
             id="password"
             name="password"
-            class="bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full py-2.5 px-4"
-            placeholder="*********"
             required
+            minlength="8"
+            class="bg-gray-100 text-gray-900 text-sm rounded-lg w-full py-2.5 px-4 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           >
         </div>
-        <div class="flex items-center justify-between mb-4">
-          <button
-            type="submit"
-            class="text-white bg-purple-600 hover:bg-purple-700 focus:ring-2 focus:ring-blue-300 font-medium rounded-lg text-sm py-2.5 px-5 w-full sm:w-auto"
-          >
-            Register
+
+        <button
+          type="submit"
+          class="w-full bg-purple-600 hover:bg-purple-700 text-white py-2.5 rounded-lg text-lg transition-colors"
+        >
+          Register
         </button>
-      </div>
-    </form>
+      </form>
+
+      <p class="mt-4 text-center text-gray-300 text-sm">
+        Already have an account? <a href="/login" class="text-purple-400 hover:underline">Login here</a>
+      </p>
+    </div>
   </div>
 </div>
-
- <script>
-      function signUpForm() {
-        return {
-          form: {
-            first_name: "",
-            last_name: "",
-            phone: "",
-            email: "",
-            password: "",
-          },
-          showPwd: false,
-          isLoading: false,
-
-          init() {
-            // Optional: light phone mask (keeps it flexible)
-            if (this.$refs.phoneInput) {
-              IMask(this.$refs.phoneInput, {
-                mask: [
-                  { mask: "+{44} 0000 000000" },
-                  { mask: "00000 000000" },
-                  { mask: "0000 000 0000" },
-                  { mask: "000000000000000" }, // fallback digits
-                ],
-              });
-            }
-          },
-        };
-      }
-    </script>
