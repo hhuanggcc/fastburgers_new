@@ -1,8 +1,8 @@
 <?php
 // Database connection details
 $host = 'localhost';
-$username = 'fastburgers_admin';
-$password = 'yQG@!iZknLY9@x1*';
+$username = 'root';
+$password = '';
 $database = 'fastburgers_development';
 
 /**

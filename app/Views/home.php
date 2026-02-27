@@ -26,10 +26,10 @@
 
     <div class="mt-8 flex justify-center gap-4">
       <a
-        href="#menu"
-        class="px-6 py-3 bg-red-500 hover:bg-red-600 rounded-lg text-lg font-semibold transition">
-        View Menu
-      </a>
+  href="/menu"
+  class="px-6 py-3 bg-red-500 hover:bg-red-600 rounded-lg text-lg font-semibold transition">
+  View Menu
+</a>
 
       <a
         href="#contact"

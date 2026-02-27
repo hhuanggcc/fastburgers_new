@@ -16,3 +16,9 @@ https://i0.wp.com/yumburger.co.uk/wp-content/uploads/2023/05/fast-food-burger-pl
 https://img.freepik.com/premium-photo/two-burgers-wooden-board-with-wooden-surface-bottle-beer-background_835197-2473.jpg
 
 https://medium.com/@wwwebadvisor/implementing-role-based-access-control-rbac-in-php-85c0ea7bc86b
+
+// Database connection details
+$host = 'localhost';
+$username = 'fastburgers_admin';
+$password = 'yQG@!iZknLY9@x1*';
+$database = 'fastburgers_development';
