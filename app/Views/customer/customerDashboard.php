@@ -90,7 +90,7 @@ if (empty($_SESSION['auth']['logged_in']) || empty($_SESSION['auth']['token'])) 
             <!-- Dashboard Section -->
             <div x-show="activeSection === 'dashboard'" class="space-y-6">
                 <header>
-                    <h1 class="text-2xl font-bold text-gray-800">Welcome Back, John Doe!</h1>
+                    <h1 class="text-2xl font-bold text-gray-800"><p>Welcome, <?= htmlspecialchars($_SESSION['customer']['name'] ?? 'Guest') ?>!</p>
                     <p class="text-gray-600">Here's what's happening with your account today.</p>
                 </header>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
