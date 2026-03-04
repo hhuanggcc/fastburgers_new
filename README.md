@@ -22,3 +22,7 @@ $host = 'localhost';
 $username = 'fastburgers_admin';
 $password = 'yQG@!iZknLY9@x1*';
 $database = 'fastburgers_development';
+
+login for fastburgers:
+helen@hotmail.com
+helen123456

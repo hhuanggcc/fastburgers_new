@@ -32,7 +32,7 @@
 </a>
 
       <a
-        href="#contact"
+        href="/contact"
         class="px-6 py-3 border border-white rounded-lg text-lg font-semibold hover:bg-white hover:text-black transition">
         Contact Us
       </a>
