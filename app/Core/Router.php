@@ -53,7 +53,7 @@ require BASE_PATH . '/app/Controllers/MenuController.php';
 (new MenuController())->index();
 break;
 
-case '/customer-dashboard':
+case '/customerDashboard':
 require BASE_PATH . '/app/Controllers/Customer/CustomerDashboardController.php';
 (new CustomerDashboardController())->index();
 break;

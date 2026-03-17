@@ -33,14 +33,14 @@ $errors = $errors ?? [];
       <?php endif; ?>
 
       <!-- Registration form -->
-      <form method="POST" action="" class="space-y-4">
+      <form method="POST" action="" class="space-y-4" id="registerForm">
+        <p id="error" class="text-color-red"></p>
         <div class="mb-4">
           <label for="first_name" class="block mb-2 text-sm font-medium">First Name</label>
           <input
             type="text"
             id="first_name"
             name="first_name"
-            required
             class="bg-gray-100 text-gray-900 text-sm rounded-lg w-full py-2.5 px-4 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           >
         </div>
@@ -51,7 +51,6 @@ $errors = $errors ?? [];
             type="text"
             id="last_name"
             name="last_name"
-            required
             class="bg-gray-100 text-gray-900 text-sm rounded-lg w-full py-2.5 px-4 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           >
         </div>
@@ -72,8 +71,7 @@ $errors = $errors ?? [];
           <input
             type="email"
             id="email"
-            name="email"
-            required
+            name="email"            
             class="bg-gray-100 text-gray-900 text-sm rounded-lg w-full py-2.5 px-4 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           >
         </div>
@@ -84,7 +82,6 @@ $errors = $errors ?? [];
             type="password"
             id="password"
             name="password"
-            required
             minlength="8"
             class="bg-gray-100 text-gray-900 text-sm rounded-lg w-full py-2.5 px-4 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           >
@@ -98,9 +95,42 @@ $errors = $errors ?? [];
         </button>
       </form>
 
+
       <p class="mt-4 text-center text-gray-300 text-sm">
         Already have an account? <a href="/login" class="text-purple-400 hover:underline">Login here</a>
       </p>
     </div>
   </div>
 </div>
+            
+            <script>
+document.getElementById("registerForm").addEventListener("submit", function(e){
+  let firstName = document.getElementById("first_name").value.trim();
+  let lastName = document.getElementById("last_name").value.trim();
+  let email = document.getElementById("email").value.trim();
+  let password = document.getElementById("password").value.trim();
+
+  let error = "";
+  let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (firstName === ""){
+    error = "First name is required";
+  } else if (lastName === ""){
+    error = "Last name is require";
+            }else if (email === ""){
+              error = "email is required";
+            }else if (!emailPattern.test(email)){
+              error = "Plesae enter a valid email address";
+            }else if (password.length < 8){
+              error = "Password must be at lease 8 characters";
+            }
+    if (error !== ""){
+      e.preventDefault();
+      document.getElementById("error").innerText = error;
+      return;
+    }
+
+    localStorage.setItem("savedEmail", email);
+            });
+    </script>
+

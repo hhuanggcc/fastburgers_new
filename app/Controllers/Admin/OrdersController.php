@@ -4,12 +4,12 @@ class OrdersController
 {
     public function index(): void
     {
-        // 先启动会话，这是核心修复
+        // open connection
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
 
-        // 权限检查：只允许 Manager 和 Sales 角色
+        // Check permission, only Manager and Sales can get access
         if (!isset($_SESSION['role']) ||
             ($_SESSION['role'] !== 'Manager' && $_SESSION['role'] !== 'Sales')) {
             header("Location: /login");
@@ -17,7 +17,7 @@ class OrdersController
         }
 
         $title = 'Fast Burgers - Orders';
-        $view = BASE_PATH . '/app/Views/admin/orders.php'; // 修正视图路径
+        $view = BASE_PATH . '/app/Views/admin/orders.php';
         require BASE_PATH . '/app/Views/layout.php';
     }
 }

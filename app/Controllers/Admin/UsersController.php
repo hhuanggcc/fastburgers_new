@@ -4,12 +4,12 @@ class UsersController
 {
     public function index(): void
     {
-        // 先启动会话，这是核心修复
+        // start connection
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
 
-        // 权限检查：只允许 Manager 角色
+        // only manager get access
         if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'Manager') {
             header("Location: /login");
             exit;
