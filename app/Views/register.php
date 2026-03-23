@@ -116,11 +116,11 @@ document.getElementById("registerForm").addEventListener("submit", function(e){
   if (firstName === ""){
     error = "First name is required";
   } else if (lastName === ""){
-    error = "Last name is require";
+    error = "Last name is required";
             }else if (email === ""){
               error = "email is required";
             }else if (!emailPattern.test(email)){
-              error = "Plesae enter a valid email address";
+              error = "Please enter a valid email address";
             }else if (password.length < 8){
               error = "Password must be at lease 8 characters";
             }

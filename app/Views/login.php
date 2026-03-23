@@ -84,3 +84,22 @@
     </div>
   </div>
 </div>
+<script>
+  document.addEventListener('DOMContentLoaded', function(){
+    const emailInput = document.querySelector('input[name="email"]');
+    const passwordInput = document.querySelector('input[name="password"]'); 
+    const loginForm = document.getElementById('loginForm');
+
+    // Check localStorage for a saved email
+    const savedEmail = localStorage.getItem('savedEmail');
+    //Auto fill the email 
+    if(savedEmail){
+      emailInput.value = savedEmail;
+      passwordInput.focus();
+    }
+    // clear the saved email when the login form is submitted
+    loginForm.addEventListener('submit', function(e){
+      localStorage.removeItem('savedEmail');
+    });
+  });
+  </script>
