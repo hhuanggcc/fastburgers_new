@@ -4,6 +4,13 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 $isLoggedIn = !empty($_SESSION['auth']['logged_in']) && !empty($_SESSION['auth']['token']);
+$isAdmin = !empty($_SESSION['auth']['is_admin']);
+
+$dashboardLink = '/customer-dashboard';
+
+if ($isAdmin){
+    $dashboardLink = '/admin-dashboard';
+}
 ?>
 
 <nav class="bg-white border-gray-200 py-2.5 dark:bg-gray-900">
@@ -39,11 +46,12 @@ $isLoggedIn = !empty($_SESSION['auth']['logged_in']) && !empty($_SESSION['auth']
                 <a href="/logout"
                    class="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 focus:outline-none">
                     Logout
-                </a>
-                <a href="/customer-dashboard"
-                   class="text-purple-700 border border-purple-700 hover:bg-purple-50 focus:ring-4 focus:ring-purple-200 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 dark:text-white dark:border-purple-500 dark:hover:bg-purple-700 dark:hover:text-white focus:outline-none">
+
+                <a href="<?= htmlspecialchars($dashboardLink) ?>"
+                    class="text-purple-700 border border-purple-700 hover:bg-purple-50 focus:ring-4 focus:ring-purple-200 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 dark:text-white dark:border-purple-500 dark:hover:bg-purple-700 dark:hover:text-white focus:outline-none">
                     Dashboard
                 </a>
+
 
             <?php endif; ?>
 

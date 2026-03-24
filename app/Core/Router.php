@@ -49,14 +49,24 @@ class Router
             break;
             // customer dashboard
         case '/menu':
-require BASE_PATH . '/app/Controllers/MenuController.php';
-(new MenuController())->index();
-break;
+            require BASE_PATH . '/app/Controllers/MenuController.php';
+            (new MenuController())->index();
+            break;
 
-case '/customerDashboard':
-require BASE_PATH . '/app/Controllers/Customer/CustomerDashboardController.php';
-(new CustomerDashboardController())->index();
-break;
+            case '/customerDashboard':
+            require BASE_PATH . '/app/Controllers/Customer/CustomerDashboardController.php';
+            (new CustomerDashboardController())->index();
+            break;
+
+        case '/admin-dashboard':
+            require BASE_PATH . '/app/Controllers/Admin/AdminDashboardController.php';
+            (new AdminDashboardController())->index();
+            break;
+
+        case '/admin-login':
+            require BASE_PATH . '/app/Controllers/Admin/AdminLoginController.php';
+            (new AdminLoginController())->index();
+            break;
          default:
             http_response_code(404);
             echo '<h1>404 - Page Not Found</h1>';

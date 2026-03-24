@@ -43,7 +43,7 @@
       <div class="space-y-4">
         <h3 class="text-lg font-semibold">Quick Links</h3>
         <ul class="space-y-2">
-          <li><a href="#" class="text-gray-400 hover:text-white transition">Home</a></li>
+          <li><a href="admin-login" class="text-gray-400 hover:text-white transition">admin login</a></li>
           <li><a href="#" class="text-gray-400 hover:text-white transition">About Us</a></li>
           <li><a href="#" class="text-gray-400 hover:text-white transition">Services</a></li>
           <li><a href="#" class="text-gray-400 hover:text-white transition">Pricing</a></li>
