@@ -38,8 +38,8 @@
     <h2 class="text-3xl font-bold text-blue-600 mt-2"><?= $totalOrders ?></h2>
   </div>
   <div class="bg-white p-6 rounded-lg shadow-md">
-    <p class="text-sm text-gray-500">Pending Tickets</p>
-    <h2 class="text-3xl font-bold text-red-500 mt-2">12</h2>
+    <p class="text-sm text-gray-500">Top staff member</p>
+    <h2 class="text-3xl font-bold text-red-500 mt-2"><?= $totalStaffOrders ?></h2>
   </div>
 </div>
 
