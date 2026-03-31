@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 27, 2026 at 01:59 AM
+-- Generation Time: Mar 31, 2026 at 01:20 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -24,34 +24,36 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `customer`
+-- Table structure for table `customers`
 --
 
-CREATE TABLE `customer` (
+CREATE TABLE `customers` (
   `customer_id` int(11) NOT NULL,
   `customer_type` enum('walk_in','online') NOT NULL,
-  `cust_first_name` varchar(50) DEFAULT NULL,
-  `cust_last_name` varchar(50) DEFAULT NULL,
+  `cust_first_name` varchar(50) NOT NULL DEFAULT 'Walk In',
+  `cust_last_name` varchar(50) DEFAULT 'Walk In',
   `customer_phoneNo` varchar(20) DEFAULT NULL,
   `email` varchar(150) DEFAULT NULL,
   `password` varchar(125) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `customer`
+-- Dumping data for table `customers`
 --
 
-INSERT INTO `customer` (`customer_id`, `customer_type`, `cust_first_name`, `cust_last_name`, `customer_phoneNo`, `email`, `password`) VALUES
-(1, 'walk_in', NULL, NULL, NULL, NULL, ''),
+INSERT INTO `customers` (`customer_id`, `customer_type`, `cust_first_name`, `cust_last_name`, `customer_phoneNo`, `email`, `password`) VALUES
+(1, 'walk_in', 'Walk In', NULL, NULL, NULL, ''),
 (2, 'online', 'John', 'Smith', '555-1020', 'john.smith@email.com', ''),
 (3, 'online', 'Emily', 'Carson', '555-1122', 'emily.carson@email.com', ''),
-(4, 'walk_in', NULL, NULL, NULL, NULL, ''),
+(4, 'walk_in', 'Walk In', NULL, NULL, NULL, ''),
 (5, 'online', 'Daniel', 'Scott', '555-2101', 'daniel.scott@email.com', ''),
-(6, 'walk_in', NULL, NULL, NULL, NULL, ''),
+(6, 'walk_in', 'Walk In', NULL, NULL, NULL, ''),
 (7, 'online', 'Maria', 'Lopez', '555-3300', 'maria.lopez@email.com', ''),
-(8, 'walk_in', NULL, NULL, NULL, NULL, ''),
+(8, 'walk_in', 'Walk In', NULL, NULL, NULL, ''),
 (9, 'online', 'James', 'Walker', '555-8822', 'james.walker@email.com', ''),
-(10, 'walk_in', NULL, NULL, NULL, NULL, '');
+(10, 'walk_in', 'Walk In', NULL, NULL, NULL, ''),
+(11, 'walk_in', 'Helen', 'Huang', '0141123456', 'helen@hotmail.com', '$2y$10$iatUKzC7Fe9Gys1LOFCYmuanHDFxDf/aBNI4AqL1blkmwW0tHy0iq'),
+(13, 'walk_in', 'helen', 'huang', NULL, 'helen@gmail.com', '$2y$10$QWGxfBUAgcIkD3SJKpkkve2z.hPeeMSxzYlWmt33yUxvQBBbGYAmm');
 
 -- --------------------------------------------------------
 
@@ -89,29 +91,30 @@ CREATE TABLE `orders` (
   `outlet_id` int(11) NOT NULL,
   `payment_method` enum('cash','card') NOT NULL,
   `order_total` decimal(10,2) NOT NULL,
-  `order_datetime` datetime NOT NULL
+  `order_datetime` datetime NOT NULL,
+  `status` varchar(50) DEFAULT 'Pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`order_id`, `customer_id`, `staff_id`, `outlet_id`, `payment_method`, `order_total`, `order_datetime`) VALUES
-(1, 1, 3, 1, 'cash', 11.50, '2025-02-10 09:05:00'),
-(2, 2, 3, 1, 'card', 11.00, '2025-02-10 10:00:00'),
-(3, 4, 2, 1, 'cash', 9.00, '2025-02-10 11:20:00'),
-(4, 5, 9, 2, 'card', 12.00, '2025-02-10 12:05:00'),
-(5, 3, 9, 2, 'card', 13.00, '2025-02-10 12:40:00'),
-(6, 6, 10, 2, 'cash', 8.50, '2025-02-10 13:15:00'),
-(7, 2, 7, 2, 'card', 10.50, '2025-02-10 13:50:00'),
-(8, 7, 15, 3, 'cash', 9.00, '2025-02-10 14:20:00'),
-(9, 8, 15, 3, 'card', 14.00, '2025-02-10 15:05:00'),
-(10, 9, 19, 4, 'cash', 6.50, '2025-02-10 15:40:00'),
-(11, 10, 19, 4, 'card', 7.60, '2025-02-10 16:10:00'),
-(12, 2, 26, 5, 'card', 12.50, '2025-02-10 17:00:00'),
-(13, 7, 26, 5, 'cash', 11.00, '2025-02-10 17:40:00'),
-(14, 3, 33, 6, 'cash', 8.20, '2025-02-10 18:10:00'),
-(15, 2, 3, 1, 'card', 14.00, '2025-02-10 19:00:00');
+INSERT INTO `orders` (`order_id`, `customer_id`, `staff_id`, `outlet_id`, `payment_method`, `order_total`, `order_datetime`, `status`) VALUES
+(1, 1, 3, 1, 'cash', 11.50, '2025-02-10 09:05:00', 'Pending'),
+(2, 2, 3, 1, 'card', 11.00, '2025-02-10 10:00:00', 'Pending'),
+(3, 4, 2, 1, 'cash', 9.00, '2025-02-10 11:20:00', 'Pending'),
+(4, 5, 9, 2, 'card', 12.00, '2025-02-10 12:05:00', 'Pending'),
+(5, 3, 9, 2, 'card', 13.00, '2025-02-10 12:40:00', 'Pending'),
+(6, 6, 10, 2, 'cash', 8.50, '2025-02-10 13:15:00', 'Pending'),
+(7, 2, 7, 2, 'card', 10.50, '2025-02-10 13:50:00', 'Pending'),
+(8, 7, 15, 3, 'cash', 9.00, '2025-02-10 14:20:00', 'Pending'),
+(9, 8, 15, 3, 'card', 14.00, '2025-02-10 15:05:00', 'Pending'),
+(10, 9, 19, 4, 'cash', 6.50, '2025-02-10 15:40:00', 'Pending'),
+(11, 10, 19, 4, 'card', 7.60, '2025-02-10 16:10:00', 'Pending'),
+(12, 2, 26, 5, 'card', 12.50, '2025-02-10 17:00:00', 'Pending'),
+(13, 7, 26, 5, 'cash', 11.00, '2025-02-10 17:40:00', 'Pending'),
+(14, 3, 33, 6, 'cash', 8.20, '2025-02-10 18:10:00', 'Pending'),
+(15, 2, 3, 1, 'card', 14.00, '2025-02-10 19:00:00', 'Pending');
 
 -- --------------------------------------------------------
 
@@ -275,50 +278,52 @@ CREATE TABLE `staff` (
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,
   `role` enum('Manager','Sales','Cook') NOT NULL,
-  `staff_email` varchar(150) NOT NULL
+  `email` varchar(150) NOT NULL,
+  `password` varchar(128) NOT NULL,
+  `admin` tinyint(4) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `staff`
 --
 
-INSERT INTO `staff` (`staff_id`, `outlet_id`, `first_name`, `last_name`, `role`, `staff_email`) VALUES
-(1, 1, 'Alice', 'Johnson', 'Manager', 'alice.johnson@fastburgers.com'),
-(2, 1, 'Brian', 'Cooper', 'Manager', 'brian.cooper@fastburgers.com'),
-(3, 1, 'Sarah', 'Lee', 'Sales', 'sarah.lee@fastburgers.com'),
-(4, 1, 'Kevin', 'White', 'Sales', 'kevin.white@fastburgers.com'),
-(5, 1, 'Sam', 'Rogers', 'Cook', 'sam.rogers@fastburgers.com'),
-(6, 1, 'Daniel', 'Cruz', 'Cook', 'daniel.cruz@fastburgers.com'),
-(7, 2, 'Lily', 'Brown', 'Manager', ''),
-(8, 2, 'George', 'Nelson', 'Manager', ''),
-(9, 2, 'Nora', 'Hill', 'Sales', ''),
-(10, 2, 'Tina', 'Parker', 'Sales', ''),
-(11, 2, 'Tom', 'Davis', 'Cook', ''),
-(12, 2, 'Hector', 'Lopez', 'Cook', ''),
-(13, 3, 'Jacob', 'Miller', 'Manager', ''),
-(14, 3, 'Renee', 'Howard', 'Manager', ''),
-(15, 3, 'Olivia', 'Adams', 'Sales', ''),
-(16, 3, 'Chloe', 'Sanders', 'Sales', ''),
-(17, 3, 'Evan', 'Bryant', 'Cook', ''),
-(18, 3, 'Leo', 'Torres', 'Cook', ''),
-(19, 4, 'Sophia', 'King', 'Manager', ''),
-(20, 4, 'Marcus', 'Cole', 'Manager', ''),
-(21, 4, 'Ella', 'Reed', 'Sales', ''),
-(22, 4, 'Vera', 'Morgan', 'Sales', ''),
-(23, 4, 'Marcus', 'Stone', 'Cook', ''),
-(24, 4, 'Isaac', 'Wong', 'Cook', ''),
-(25, 5, 'Henry', 'Woods', 'Manager', ''),
-(26, 5, 'Derek', 'Stone', 'Manager', ''),
-(27, 5, 'Paula', 'Green', 'Sales', ''),
-(28, 5, 'Mia', 'Turner', 'Sales', ''),
-(29, 5, 'Derek', 'Baker', 'Cook', ''),
-(30, 5, 'Jason', 'Hunt', 'Cook', ''),
-(31, 6, 'Faith', 'Young', 'Manager', ''),
-(32, 6, 'Oscar', 'Kim', 'Manager', ''),
-(33, 6, 'Ruby', 'Hayes', 'Sales', ''),
-(34, 6, 'Zoe', 'Carter', 'Sales', ''),
-(35, 6, 'Ivan', 'Shaw', 'Cook', ''),
-(36, 6, 'Elliot', 'Grant', 'Cook', '');
+INSERT INTO `staff` (`staff_id`, `outlet_id`, `first_name`, `last_name`, `role`, `email`, `password`, `admin`) VALUES
+(1, 1, 'Alice', 'Johnson', 'Manager', 'admin@email.com', '$2y$10$iatUKzC7Fe9Gys1LOFCYmuanHDFxDf/aBNI4AqL1blkmwW0tHy0iq', 1),
+(2, 1, 'Brian', 'Cooper', 'Manager', 'brian.cooper@fastburgers.com', '$2y$10$iatUKzC7Fe9Gys1LOFCYmuanHDFxDf/aBNI4AqL1blkmwW0tHy0iq', 0),
+(3, 1, 'Sarah', 'Lee', 'Sales', 'sales@email.com', '$2y$10$iatUKzC7Fe9Gys1LOFCYmuanHDFxDf/aBNI4AqL1blkmwW0tHy0iq', 0),
+(4, 1, 'Kevin', 'White', 'Sales', 'kevin.white@fastburgers.com', '$2y$10$iatUKzC7Fe9Gys1LOFCYmuanHDFxDf/aBNI4AqL1blkmwW0tHy0iq', 0),
+(5, 1, 'Sam', 'Rogers', 'Cook', 'cook@email.com', '$2y$10$iatUKzC7Fe9Gys1LOFCYmuanHDFxDf/aBNI4AqL1blkmwW0tHy0iq', 0),
+(6, 1, 'Daniel', 'Cruz', 'Cook', 'daniel.cruz@fastburgers.com', '', 0),
+(7, 2, 'Lily', 'Brown', 'Manager', '', '', 0),
+(8, 2, 'George', 'Nelson', 'Manager', '', '', 0),
+(9, 2, 'Nora', 'Hill', 'Sales', '', '', 0),
+(10, 2, 'Tina', 'Parker', 'Sales', '', '', 0),
+(11, 2, 'Tom', 'Davis', 'Cook', '', '', 0),
+(12, 2, 'Hector', 'Lopez', 'Cook', '', '', 0),
+(13, 3, 'Jacob', 'Miller', 'Manager', '', '', 0),
+(14, 3, 'Renee', 'Howard', 'Manager', '', '', 0),
+(15, 3, 'Olivia', 'Adams', 'Sales', '', '', 0),
+(16, 3, 'Chloe', 'Sanders', 'Sales', '', '', 0),
+(17, 3, 'Evan', 'Bryant', 'Cook', '', '', 0),
+(18, 3, 'Leo', 'Torres', 'Cook', '', '', 0),
+(19, 4, 'Sophia', 'King', 'Manager', '', '', 0),
+(20, 4, 'Marcus', 'Cole', 'Manager', '', '', 0),
+(21, 4, 'Ella', 'Reed', 'Sales', '', '', 0),
+(22, 4, 'Vera', 'Morgan', 'Sales', '', '', 0),
+(23, 4, 'Marcus', 'Stone', 'Cook', '', '', 0),
+(24, 4, 'Isaac', 'Wong', 'Cook', '', '', 0),
+(25, 5, 'Henry', 'Woods', 'Manager', '', '', 0),
+(26, 5, 'Derek', 'Stone', 'Manager', '', '', 0),
+(27, 5, 'Paula', 'Green', 'Sales', '', '', 0),
+(28, 5, 'Mia', 'Turner', 'Sales', '', '', 0),
+(29, 5, 'Derek', 'Baker', 'Cook', '', '', 0),
+(30, 5, 'Jason', 'Hunt', 'Cook', '', '', 0),
+(31, 6, 'Faith', 'Young', 'Manager', '', '', 0),
+(32, 6, 'Oscar', 'Kim', 'Manager', '', '', 0),
+(33, 6, 'Ruby', 'Hayes', 'Sales', '', '', 0),
+(34, 6, 'Zoe', 'Carter', 'Sales', '', '', 0),
+(35, 6, 'Ivan', 'Shaw', 'Cook', '', '', 0),
+(36, 6, 'Elliot', 'Grant', 'Cook', '', '', 0);
 
 -- --------------------------------------------------------
 
@@ -392,9 +397,9 @@ INSERT INTO `user` (`user_id`, `username`, `password_hash`, `role`, `customer_id
 --
 
 --
--- Indexes for table `customer`
+-- Indexes for table `customers`
 --
-ALTER TABLE `customer`
+ALTER TABLE `customers`
   ADD PRIMARY KEY (`customer_id`),
   ADD UNIQUE KEY `customer_email` (`email`);
 
@@ -471,10 +476,10 @@ ALTER TABLE `user`
 --
 
 --
--- AUTO_INCREMENT for table `customer`
+-- AUTO_INCREMENT for table `customers`
 --
-ALTER TABLE `customer`
-  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+ALTER TABLE `customers`
+  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `menu`
@@ -538,7 +543,7 @@ ALTER TABLE `user`
 -- Constraints for table `orders`
 --
 ALTER TABLE `orders`
-  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`),
+  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`customer_id`),
   ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`staff_id`) REFERENCES `staff` (`staff_id`),
   ADD CONSTRAINT `orders_ibfk_3` FOREIGN KEY (`outlet_id`) REFERENCES `outlet` (`outlet_id`);
 
@@ -579,7 +584,7 @@ ALTER TABLE `stock`
 -- Constraints for table `user`
 --
 ALTER TABLE `user`
-  ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`customer_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `user_ibfk_2` FOREIGN KEY (`staff_id`) REFERENCES `staff` (`staff_id`) ON DELETE CASCADE;
 COMMIT;
 
