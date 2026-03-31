@@ -67,6 +67,22 @@ class Router
             require BASE_PATH . '/app/Controllers/Admin/AdminLoginController.php';
             (new AdminLoginController())->index();
             break;
+
+        case '/orders':
+            require BASE_PATH . '/app/Controllers/Admin/OrdersController.php';
+            (new OrdersController())->index();
+            break;
+
+        case '/products':
+            require BASE_PATH . '/app/Controllers/Admin/ProductsController.php';
+            (new ProductsController())->index();
+            break;
+
+        case '/customers':
+            require BASE_PATH . '/app/Controllers/Admin/CustomersController.php';
+            (new CustomersController())->index();
+            break;
+
          default:
             http_response_code(404);
             echo '<h1>404 - Page Not Found</h1>';

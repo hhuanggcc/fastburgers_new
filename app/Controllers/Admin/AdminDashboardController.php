@@ -55,25 +55,30 @@ if ($resultRevenue && $row = $resultRevenue->fetch_assoc()){
     $totalRevenue = (int) $row['total_revenue'];
  }
 
- // Staff member with the most orders
- $sqlTotalStaff = "
-     SELECT
-         s.first_name,
-         s.last_name,
-         COUNT(o.order_id) AS order_count
-     FROM orders o
-     INNER JOIN staff s ON o.staff_id = s.staff_id
-     GROUP BY s.staff_id, s.first_name, s.last_name
-     ORDER BY order_count DESC, s.last_name ASC, s.first_name ASC
-     LIMIT 1
-     ";
-     $resultTopStaff = $conn->query($sqlTopStaff);
+// Top staff member with the most orders
+$sqlTopStaff = "
+    SELECT
+        s.staff_id,
+        s.first_name,
+        s.last_name,
+        COUNT(o.order_id) AS order_count
+    FROM orders o
+    INNER JOIN staff s ON o.staff_id = s.staff_id
+    GROUP BY s.staff_id, s.first_name, s.last_name
+    HAVING COUNT(o.order_id) > 0
+    ORDER BY order_count DESC
+    LIMIT 1
+";
 
-     if ($resultTopStaff && $row = $resultTopStaff->fetch_assoc()){
-         $topStaffName = trim($row['first_name'] . ' ' . $row['last_name']);
-         $topStaffOrders = (int) $row['order_count'];
-     }
+$resultTopStaff = $conn->query($sqlTopStaff);
 
+$topStaffName = "N/A";
+$topStaffOrders = 0;
+
+if ($resultTopStaff && $row = $resultTopStaff->fetch_assoc()) {
+    $topStaffName = trim($row['first_name'] . ' ' . $row['last_name']);
+    $topStaffOrders = (int)$row['order_count'];
+}
 //     // Recent orders with customer and staff names
 //     $sqlRencentOrder = "
 //         SELECT

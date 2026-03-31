@@ -85,13 +85,38 @@ if ($isAdmin){
                         About
                     </a>
                 </li>
+                
+                <?php if ($isAdmin): ?>
+<li>
+    <a href="/orders"
+        class="block py-2 pl-3 pr-4 text-gray-700 hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white">
+        Orders
+    </a>
+</li>
+<?php endif; ?>
 
+<?php if ($isAdmin): ?>
+<li>
+    <a href="/products" class="block py-2 pl-3 pr-4 text-gray-700 hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white">
+        Products
+    </a>
+</li>
+<?php endif; ?>
+
+<?php if ($isAdmin): ?>
+    <li>
+        <a href="/customers" class="block py-2 pl-3 pr-4 text-gray-700 hover:text-purple-700 lg:p-0">
+            Customers            
+        </a>
+    </li>
+<?php endif; ?>
                 <li>
                     <a href="/contact"
                         class="block py-2 pl-3 pr-4 text-gray-700 hover:text-purple-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white">
                         Contact
                     </a>
                 </li>
+
 
             </ul>
         </div>
