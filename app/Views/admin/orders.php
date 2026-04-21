@@ -13,6 +13,8 @@
                             <th class="text-left p-3">Date</th>
                             <th class="text-left p-3">Payment</th>
                             <th class="text-left p-3">Total</th>
+                            <th class="text-left p-3">Status</th>
+                            
                             <th class="text-left p-3">Actions</th>
                         </tr>
                     </thead>
@@ -40,15 +42,22 @@
                                 <!-- ORDER TOTAL (matches your DB: order_total) -->
                                 <td class="p-3">£<?= number_format((float)$order['order_total'], 2) ?></td>
 
+                                <!-- ORDER Status (matches your DB: status) -->
+                                <td class="p-3"><?= htmlspecialchars($order['status']) ?></td>
+
                                 <!-- ACTION BUTTONS -->
                                 <td class="p-3">
                                     <div class="flex gap-2">
-                                        <button class="bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1.5 rounded-lg">
+                                        <a href="/orders/edit?id=<?= urlencode($order['order_id']) ?>"
+                                        class="bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1.5 rounded-lg">
                                             Edit
-                                        </button>
-                                        <button class="bg-red-500 hover:bg-red-600 text-white text-sm px-3 py-1.5 rounded-lg">
+                                        </a>
+                                        
+                                        <a href="/orders/delete?id=<?= urlencode($order['order_id']) ?>"
+                                        class="bg-red-500 hover:bg-red-600 text-white text-sm px-3 py-1.5 rounded-lg"
+                                        onclick="return confirm('Are you sure you want to delete this order? This cannot be undone!');">    
                                             Delete
-                                        </button>
+                                        </a>
                                     </div>
                                 </td>
                             </tr>

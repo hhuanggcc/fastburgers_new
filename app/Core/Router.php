@@ -83,7 +83,17 @@ class Router
             (new CustomersController())->index();
             break;
 
-         default:
+         case '/orders/edit':
+            require BASE_PATH . '/app/Controllers/Admin/OrdersController.php';
+            (new OrdersController())->edit();
+            break;
+
+        case '/orders/delete':
+            require BASE_PATH . '/app/Controllers/Admin/OrdersController.php';
+            (new OrdersController())->delete();
+            break;
+         
+            default:
             http_response_code(404);
             echo '<h1>404 - Page Not Found</h1>';
     }

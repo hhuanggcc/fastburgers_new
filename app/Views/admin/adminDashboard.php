@@ -63,7 +63,7 @@
             <?php if (!empty($recentOrders)): ?>
               <?php foreach ($recentOrders as $order): ?>
               <tr class="border-t">
-                <td class="p-4">#<?= htmlspecialchars($order['order_id']) ?></td>
+                <td class="p-4"><?= htmlspecialchars($order['order_id']) ?></td>
                 <td class="p-4"><?= htmlspecialchars($order['customer_first_name'] . ' ' . $order['customer_last_name']) ?></td>
                 <td class="p-4"><?= htmlspecialchars($order['staff_first_name'] . ' ' . $order['staff_last_name']) ?></td>
                 <td class="p-4">£<?= number_format($order['order_total'], 2) ?></td>

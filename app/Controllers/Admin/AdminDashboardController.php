@@ -6,8 +6,7 @@ class AdminDashboardController
     public function index(): void
     {
         // Page title used by the layout
-        $title = 'Fast Burgers - Dashboard';
-        
+        $title = 'Fast Burgers - Dashboard';        
 
 if (session_status() === PHP_SESSION_NONE) session_start();
 
@@ -79,32 +78,31 @@ if ($resultTopStaff && $row = $resultTopStaff->fetch_assoc()) {
     $topStaffName = trim($row['first_name'] . ' ' . $row['last_name']);
     $topStaffOrders = (int)$row['order_count'];
 }
-//     // Recent orders with customer and staff names
-//     $sqlRencentOrder = "
-//         SELECT
-//             o.order_id,
-//             o.order_datetime,
-//             o.payment_method,
-//             o.order_total,
-//             c.cust_first_name AS customer_first_name,
-//             c.cust_last_name AS customer_last_name,
-//             s.first_name AS staff_first_name,
-//             s.last_name AS staff_last_name
-//         FROM orders.o
-//         INNER JOIN customers c ON o.customer_id = c.customer_id
-//         INNER JOIN staff s ON o.staff_id = s.staff_id
-//         ORDER BY o.order_datetime DESC
-//         LIMIT 5
-//         ";
-//         $resultRencentOrders = $conn->query($sqlRencentOrder);
+    //Recent orders with customer and staff names
+    $sqlRencentOrder = "
+        SELECT
+            o.order_id,
+            o.order_datetime,
+            o.payment_method,
+            o.order_total,
+            o.status,
+            c.cust_first_name AS customer_first_name,
+            c.cust_last_name AS customer_last_name,
+            s.first_name AS staff_first_name,
+            s.last_name AS staff_last_name
+        FROM orders o
+        INNER JOIN customers c ON o.customer_id = c.customer_id
+        INNER JOIN staff s ON o.staff_id = s.staff_id
+        ORDER BY o.order_datetime DESC
+        LIMIT 5
+        ";
+        $resultRencentOrders = $conn->query($sqlRencentOrder);
 
-//         if($resultRencentOrders){
-//             while ($row = $resultRencentOrders->fetch_assoc()){
-//                 $rencentOrders[] = $row;
-//             }
-//         }
-
-
+        if($resultRencentOrders){
+            while ($row = $resultRencentOrders->fetch_assoc()){
+                $recentOrders[] = $row;
+            }
+        }
 
         // Tell the layout which view to display
         $view = BASE_PATH . '/app/Views/admin/adminDashboard.php';
