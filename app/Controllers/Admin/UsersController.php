@@ -16,7 +16,7 @@ class UsersController
         }
 
         $title = 'Fast Burgers - Users';
-        $view = BASE_PATH . '/app/Views/admin/user.php'; // 修正视图路径
+        $view = BASE_PATH . '/app/Views/admin/user.php'; 
         require BASE_PATH . '/app/Views/layout.php';
     }
 }

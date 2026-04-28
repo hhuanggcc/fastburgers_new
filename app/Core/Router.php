@@ -83,6 +83,12 @@ class Router
             (new CustomersController())->index();
             break;
 
+        case '/order-details':
+            require BASE_PATH . '/app/Controllers/Admin/OrdersController.php';
+            (new OrdersController())->view();
+            break;
+
+
          case '/orders/edit':
             require BASE_PATH . '/app/Controllers/Admin/OrdersController.php';
             (new OrdersController())->edit();
@@ -92,6 +98,14 @@ class Router
             require BASE_PATH . '/app/Controllers/Admin/OrdersController.php';
             (new OrdersController())->delete();
             break;
+
+        case '/update-stock':
+    require BASE_PATH . '/app/Controllers/Admin/ProductsController.php';
+    (new ProductsController())->updateStock();
+    break;
+
+
+
          
             default:
             http_response_code(404);

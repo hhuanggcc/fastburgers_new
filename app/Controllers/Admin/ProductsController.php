@@ -37,7 +37,9 @@ class ProductsController
                 p.category,
                 p.price,
                 m.menu_name,
+                s.stock_id,
                 s.current_quantity,
+                s.restock_threshold,
                 ot.outlet_name
             FROM product p
             INNER JOIN menu m 
@@ -61,4 +63,58 @@ class ProductsController
         $view = BASE_PATH . '/app/Views/admin/products.php';
         require BASE_PATH . '/app/Views/layout.php';
     }
+public function updateStock(): void
+{
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    if (empty($_SESSION['auth']['logged_in'])) {
+        header("Location: /admin-login");
+        exit;
+    }
+
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        header("Location: /products");
+        exit;
+    }
+
+    // Get POST values
+    $stockId = (int)($_POST['stock_id'] ?? 0);
+    $qty = (int)($_POST['current_quantity'] ?? -1);
+
+    if ($stockId <= 0 || $qty < 0) {
+        header("Location: /products");
+        exit;
+    }
+
+    // DB connection
+    /** @var mysqli $conn */
+    $conn = require BASE_PATH . '/config/database.php';
+
+    // Update stock
+    $stmt = $conn->prepare("
+        UPDATE stock
+        SET current_quantity = ?
+        WHERE stock_id = ?
+    ");
+
+    if (!$stmt) {
+        die('Prepare failed: ' . $conn->error);
+    }
+
+    $stmt->bind_param("ii", $qty, $stockId);
+
+    if (!$stmt->execute()) {
+        die('Update failed: ' . $stmt->error);
+    }
+
+    $stmt->close();
+
+    header("Location: /products");
+    exit;
 }
+}
+    
+
+

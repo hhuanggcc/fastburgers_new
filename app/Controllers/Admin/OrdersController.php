@@ -120,6 +120,52 @@ class OrdersController
         exit;
     }
 
+    public function details(int $orderId): void
+    {
+        if (session_status() === PHP_SESSION_NONE) session_start();
+
+        if (empty($_SESSION['auth']['logged_in'])) {
+            header("Location: /login");
+            exit;
+        }
+
+        /** @var mysqli $conn */
+        $conn = require BASE_PATH . '/config/database.php';
+
+        // Fetch order info
+        $sqlOrder = "
+            SELECT o.*, 
+                   c.cust_first_name, c.cust_last_name,
+                   s.first_name AS staff_first_name, s.last_name AS staff_last_name
+            FROM orders o
+            INNER JOIN customers c ON o.customer_id = c.customer_id
+            INNER JOIN staff s ON o.staff_id = s.staff_id
+            WHERE o.order_id = ?
+        ";
+
+        $stmt = $conn->prepare($sqlOrder);
+        $stmt->bind_param("i", $orderId);
+        $stmt->execute();
+        $order = $stmt->get_result()->fetch_assoc();
+
+        // Fetch order items
+        $sqlItems = "
+            SELECT oi.quantity, oi.paid_price,
+                   p.product_name, p.category
+            FROM order_item oi
+            INNER JOIN product p ON oi.product_id = p.product_id
+            WHERE oi.order_id = ?
+        ";
+
+        $stmt2 = $conn->prepare($sqlItems);
+        $stmt2->bind_param("i", $orderId);
+        $stmt2->execute();
+        $items = $stmt2->get_result()->fetch_all(MYSQLI_ASSOC);
+
+        $view = BASE_PATH . '/app/Views/admin/orderDetails.php';
+        require BASE_PATH . '/app/Views/layout.php';
+    }
+
     public function edit(): void
     {
         $title = 'Fast Burgers - Edit Order';
@@ -214,4 +260,93 @@ class OrdersController
         $view = BASE_PATH . '/app/Views/admin/edit-order.php';
         require BASE_PATH . '/app/Views/layout.php';
     }
+    
+   public function view(): void
+{
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    if (
+        empty($_SESSION['auth']['logged_in']) ||
+        empty($_SESSION['auth']['token']) ||
+        empty($_SESSION['auth']['is_admin'])
+    ) {
+        header('Location: /admin-login');
+        exit;
+    }
+
+    $orderId = isset($_GET['id']) ? (int) $_GET['id'] : 0;
+
+    if ($orderId <= 0) {
+        die('Invalid order ID.');
+    }
+
+    /** @var mysqli $conn */
+    $conn = require BASE_PATH . '/config/database.php';
+
+    // Fetch order summary
+    $sqlOrder = "
+    SELECT 
+        o.order_id,
+        o.order_datetime,
+        o.payment_method,
+        o.order_total,
+        o.status,
+        c.cust_first_name,
+        c.cust_last_name,
+        c.email,
+        c.customer_phoneNo AS phone,
+        s.first_name AS staff_first_name,
+        s.last_name AS staff_last_name
+    FROM orders o
+    INNER JOIN customers c ON o.customer_id = c.customer_id
+    INNER JOIN staff s ON o.staff_id = s.staff_id
+    WHERE o.order_id = ?
+    LIMIT 1
+";
+
+
+    $stmt = $conn->prepare($sqlOrder);
+    $stmt->bind_param("i", $orderId);
+    $stmt->execute();
+    $order = $stmt->get_result()->fetch_assoc();
+    $stmt->close();
+
+    if (!$order) {
+        die('Order not found.');
+    }
+
+    // Fetch items
+    $sqlItems = "
+        SELECT 
+            oi.quantity,
+            oi.paid_price,
+            p.product_name,
+            p.category
+        FROM order_item oi
+        INNER JOIN product p ON oi.product_id = p.product_id
+        WHERE oi.order_id = ?
+    ";
+
+    $stmt2 = $conn->prepare($sqlItems);
+    $stmt2->bind_param("i", $orderId);
+    $stmt2->execute();
+    $items = $stmt2->get_result()->fetch_all(MYSQLI_ASSOC);
+    $stmt2->close();
+
+    // Customer array
+    $customer = [
+        'cust_first_name' => $order['cust_first_name'],
+        'cust_last_name'  => $order['cust_last_name'],
+        'email'           => $order['email'],
+        'phone'           => $order['phone']
+    ];
+
+    // Load view
+    $view = BASE_PATH . '/app/Views/admin/view-order.php';
+    require BASE_PATH . '/app/Views/layout.php';
+}
+
+
 }
