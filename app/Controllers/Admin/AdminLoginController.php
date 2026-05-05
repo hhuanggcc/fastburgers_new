@@ -76,13 +76,12 @@ class AdminLoginController
 
                         // Store auth state in session
                         $_SESSION['auth'] = [
-                            'logged_in' => true,
-                            $_SESSION['auth']['outlet_id'] = $user['outlet_id'];
-
-                            'token' => $authToken,
-                            'token_issued_at' => time(),
-                            'is_admin' => 1
-                        ];
+    'logged_in'       => true,
+    'outlet_id'       => $user['outlet_id'],
+    'token'           => $authToken,
+    'token_issued_at' => time(),
+    'is_admin'        => 1
+];
 
                         // Store customer details you want handy
                         $_SESSION['customer'] = [

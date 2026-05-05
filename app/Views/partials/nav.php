@@ -19,7 +19,7 @@ if ($isAdmin){
         <!-- Logo -->
         <a href="/" class="flex items-center">
             <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
-                Company Logo
+                Fast Burgers
             </span>
         </a>
 
