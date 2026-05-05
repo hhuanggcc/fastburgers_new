@@ -26,3 +26,9 @@ $database = 'fastburgers_development';
 login for fastburgers:
 helen@hotmail.com
 helen123456
+
+john.smith@email.com
+helen123456
+
+admin@email.com
+helen123456

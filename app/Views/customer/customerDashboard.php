@@ -104,7 +104,7 @@ if (empty($_SESSION['auth']['logged_in']) || empty($_SESSION['auth']['token'])) 
                     </div>
                     <div class="bg-white p-4 rounded-lg shadow-md">
                         <h2 class="text-lg font-semibold text-gray-700">Total Spent</h2>
-                        <p class="text-2xl font-bold text-blue-600">$500.00</p>
+                        <p class="text-2xl font-bold text-blue-600">£500.00</p>
                     </div>
                 </div>
             </div>
@@ -130,13 +130,13 @@ if (empty($_SESSION['auth']['logged_in']) || empty($_SESSION['auth']['token'])) 
                                 <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">#ORD12345</td>
                                 <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">2023-10-10</td>
                                 <td class="px-4 py-3 whitespace-nowrap text-sm text-green-600">Completed</td>
-                                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">$100.00</td>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">£100.00</td>
                             </tr>
                             <tr>
                                 <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">#ORD67890</td>
                                 <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">2023-10-05</td>
                                 <td class="px-4 py-3 whitespace-nowrap text-sm text-yellow-600">Pending</td>
-                                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">$50.00</td>
+                                <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-900">£50.00</td>
                             </tr>
                         </tbody>
                     </table>
