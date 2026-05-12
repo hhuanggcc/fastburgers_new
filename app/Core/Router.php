@@ -99,6 +99,11 @@ class Router
             (new OrdersController())->delete();
             break;
 
+        case '/customer-dashboard':
+            require BASE_PATH . '/app/Controllers/Customer/CustomerDashboardController.php';
+            (new CustomerDashboardController())->index();
+            break;
+
         case '/update-stock':
     require BASE_PATH . '/app/Controllers/Admin/ProductsController.php';
     (new ProductsController())->updateStock();
