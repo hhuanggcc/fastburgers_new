@@ -1,3 +1,69 @@
+<?php
+require_once '../config/database.php';
+
+$errors = [];
+
+// Ensure ID exists
+if (!isset($_GET['id'])) {
+    die("Order ID is required.");
+}
+
+$orderId = intval($_GET['id']);
+
+// Load order
+$stmt = $conn->prepare("SELECT * FROM orders WHERE order_id = ?");
+$stmt->bind_param("i", $orderId);
+$stmt->execute();
+$order = $stmt->get_result()->fetch_assoc();
+
+if (!$order) {
+    die("Order not found.");
+}
+
+// Handle POST
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    $payment_method = trim($_POST['payment_method']);
+    $status         = trim($_POST['status']);
+    $order_total    = trim($_POST['order_total']);
+
+    // VALIDATION
+    $validPayments = ['cash', 'card'];
+    $validStatus   = ['pending', 'paid'];
+
+    if (!in_array(strtolower($payment_method), $validPayments)) {
+        $errors[] = "Payment method must be Cash or Card.";
+    }
+
+    if (!in_array(strtolower($status), $validStatus)) {
+        $errors[] = "Status must be Pending or Paid.";
+    }
+
+    if (!is_numeric($order_total)) {
+        $errors[] = "Order total must be numeric.";
+    } elseif ($order_total < 0) {
+        $errors[] = "Order total cannot be negative.";
+    }
+
+    // If no errors → update
+    if (count($errors) === 0) {
+        $stmt = $conn->prepare("
+            UPDATE orders
+            SET payment_method = ?, status = ?, order_total = ?
+            WHERE order_id = ?
+        ");
+        $stmt->bind_param("ssdi", $payment_method, $status, $order_total, $orderId);
+
+        if ($stmt->execute()) {
+            header("Location: /orders?updated=1");
+            exit;
+        } else {
+            $errors[] = "Failed to update order. Please try again.";
+        }
+    }
+}
+?>
+
 <div class="max-w-3xl mx-auto p-6">
     <h1 class="text-3xl font-bold mb-6">Edit Order</h1>
 
@@ -29,22 +95,22 @@
                        readonly>
             </div>
 
+            <!-- Payment dropdown -->
             <div class="mb-4">
                 <label for="payment_method" class="block text-sm font-medium mb-2">Payment Method</label>
-                <input type="text"
-                       id="payment_method"
-                       name="payment_method"
-                       value="<?= htmlspecialchars($_POST['payment_method'] ?? $order['payment_method']) ?>"
-                       class="w-full border rounded-lg px-3 py-2">
+                <select id="payment_method" name="payment_method" class="w-full border rounded-lg px-3 py-2">
+                    <option value="cash" <?= (($_POST['payment_method'] ?? $order['payment_method']) === 'cash') ? 'selected' : '' ?>>Cash</option>
+                    <option value="card" <?= (($_POST['payment_method'] ?? $order['payment_method']) === 'card') ? 'selected' : '' ?>>Card</option>
+                </select>
             </div>
 
+            <!-- Status dropdown -->
             <div class="mb-4">
                 <label for="status" class="block text-sm font-medium mb-2">Status</label>
-                <input type="text"
-                       id="status"
-                       name="status"
-                       value="<?= htmlspecialchars($_POST['status'] ?? $order['status']) ?>"
-                       class="w-full border rounded-lg px-3 py-2">
+                <select id="status" name="status" class="w-full border rounded-lg px-3 py-2">
+                    <option value="pending" <?= (($_POST['status'] ?? $order['status']) === 'pending') ? 'selected' : '' ?>>Pending</option>
+                    <option value="paid" <?= (($_POST['status'] ?? $order['status']) === 'paid') ? 'selected' : '' ?>>Paid</option>
+                </select>
             </div>
 
             <div class="mb-6">
